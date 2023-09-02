@@ -1,4 +1,0 @@
-web-servers: Apache
-font-scripts: Google Font API
-web-frameworks: Twitter Bootstrap
-javascript-frameworks: jQuery
