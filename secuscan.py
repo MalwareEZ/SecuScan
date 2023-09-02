@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import builtwith
 import argparse
 import requests
@@ -26,30 +25,24 @@ def check_url(url):
     try:
         response = requests.get(url)
         valide = validators.url(url)
-        if response != 404 and valide:
+        
+        if response.status_code != 404 and valide:
             return True
+    
     except Exception:
-        print(f"{Fore.RED}[x]{Fore.WHITE} You provided an invalid URL. Please put a valid URL like this example: https://example com")
+        print(f"{Fore.RED}[x]{Fore.WHITE} You provided an invalid URL. Please put a valid URL like this example: https://example.com")
         return False
 
 
-# scan web technologies present on the target
 def scan_techno(elements_list, website):
-    techno = open("techno.txt", "w", encoding="utf-8")
-
     for description, data in website.items():
-        elements_list.append(f"{description}: ")
-        elements_list.extend(data)
+        result_techno = f"{description}: {', '.join(data)}"
+        elements_list.append(result_techno)
 
-    for i in range(0, len(elements_list), 2):
-        result_scan_techno = elements_list[i] + elements_list[i + 1]
-        print(f"{Fore.BLUE}[*]{Fore.WHITE} {result_scan_techno}")
-        techno.write(result_scan_techno+"\n")
-
-    techno.seek(0)
-    techno.close()
+    with open("techno.txt", "w", encoding="utf-8") as techno_file:
+        techno_file.write('\n'.join(elements_list))
 
 
 if check_url(url):
     scan_techno(elements_list, website)
-    print(f"{Fore.GREEN}[+]{Fore.WHITE} You can view the report on index.html...")
+    print(f"{Fore.GREEN}[+]{Fore.WHITE} You can view the report in techno.txt...")
